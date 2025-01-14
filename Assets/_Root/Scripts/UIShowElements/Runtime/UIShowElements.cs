@@ -12,20 +12,23 @@ namespace _Root.Scripts.UIShowElements.Runtime
         [SerializeField] private Image elementBG;
         [SerializeField] private TMP_Text nameTMP;
         [SerializeField] private TMP_Text electronCountTMP;
-        [SerializeField] private string elementName;
         [SerializeField] private int currentElement = 1;
-        [SerializeField] private ElementScriptableObject currentElementScriptableObject;
+        [SerializeField] private SelectedElementsScriptableObject selectedElementsScriptable;
+
+        [SerializeField] private string elementNameKey = "element";
 
         private void Start()
         {
-            currentElement = Data.Load(elementName, 1);
-            SetElement(currentElementScriptableObject);
+            currentElement = Data.Load(elementNameKey, 1);
+            SetElement(selectedElementsScriptable, currentElement);
         }
 
-        private void SetElement(ElementScriptableObject elementScriptableObject)
+        private void SetElement(SelectedElementsScriptableObject selectedElementsScriptable, int index)
         {
-            nameTMP.text = elementScriptableObject.elementName;
+            ElementScriptableObject elementScriptableObject = selectedElementsScriptable.scriptableElements[index];
+            nameTMP.text = elementScriptableObject.elementShortName;
             electronCountTMP.text = elementScriptableObject.electrons.ToString();
+            this.selectedElementsScriptable.selectedElement = elementScriptableObject;
         }
     }
 }
